@@ -21,9 +21,11 @@ class BaseModel:
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
         if not kwargs:
+            # from models import storage
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
+            # storage.new(self)
         else:
             for key, value in kwargs.items():
                 if key == "__class__":
@@ -51,16 +53,19 @@ class BaseModel:
 
     def to_dict(self):
         """Convert instance into dict format"""
-        dictionary = {}
-        dictionary.update(self.__dict__)
-        dictionary.update({'__class__':
-                          (str(type(self)).split('.')[-1]).split('\'')[0]})
-        dictionary['created_at'] = self.created_at.isoformat()
-        dictionary['updated_at'] = self.updated_at.isoformat()
-        # Not sure if it works
-        if '_sa_instance_state' in dictionary:
-            dictionary.pop('_sa_instance_state')
-        return dictionary
+        new_dict = {}
+        for key, value in self.__dict__.items():
+            if key == 'created_at':
+                new_dict[key] = self.created_at.isoformat()
+            elif key == 'updated_at':
+                new_dict[key] = self.updated_at.isoformat()
+            elif key == '_sa_instance_state':
+                continue
+            else:
+                new_dict[key] = value
+
+        new_dict["__class__"] = self.__class__.__name__
+        return new_dict
 
     def delete(self):
         """delete the object instance"""

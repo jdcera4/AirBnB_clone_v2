@@ -3,8 +3,8 @@
 for the creation of the engine with ORM
 """
 from sqlalchemy.orm.session import Session
-from models.base_model import Base
 from sqlalchemy.orm import sessionmaker
+from models.base_model import Base
 from sqlalchemy.orm import scoped_session
 from sqlalchemy import create_engine
 from os import getenv
@@ -33,8 +33,6 @@ class DBStorage:
 
     def all(self, cls=None):
         """query on the current database session"""
-        # Session = sessionmaker(bind=self.__engine)
-        # self.__session = Session()
         cls_dict = {}
         if cls is not None:
             for obj in self.__session.query(cls):
@@ -46,7 +44,6 @@ class DBStorage:
                 for obj in self.__session.query(cls_type):
                     key_obj = cls_type.__name__ + '.' + obj.id
                     cls_dict[key_obj] = obj
-        # self.__session.close()
         return cls_dict
 
     def new(self, obj):
