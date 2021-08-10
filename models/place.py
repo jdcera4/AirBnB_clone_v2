@@ -3,6 +3,9 @@
 from sqlalchemy.sql.schema import Column, ForeignKey
 from sqlalchemy.sql.sqltypes import Float, Integer, String
 from models.base_model import BaseModel, Base
+from os import getenv
+from sqlalchemy.orm import relationship, backref
+import models
 
 
 class Place(BaseModel, Base):
@@ -20,3 +23,18 @@ class Place(BaseModel, Base):
     latitude = Column(Float)
     longitude = Column(Float)
     amenity_ids = []
+
+    if getenv('HBNB_TYPE_STORAGE') == 'db':
+        reviews = relationship("Review", backref=backref(
+            "place", cascade="all, delete"))
+    else:
+        @property
+        def reviews(self):
+            """the geter of cities"""
+            from models.review import Review
+            objs = models.storage.all(Review)
+            new_list = []
+            for review in objs.values():
+                if review.place_id == self.id:
+                    new_list.append(review)
+            return new_list
