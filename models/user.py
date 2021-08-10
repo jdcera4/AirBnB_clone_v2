@@ -3,6 +3,7 @@
 from models.base_model import BaseModel, Base
 from sqlalchemy.sql.schema import Column
 from sqlalchemy.sql.sqltypes import String
+from sqlalchemy.orm import relationship, backref
 
 
 class User(BaseModel, Base):
@@ -12,3 +13,6 @@ class User(BaseModel, Base):
     password = Column(String(128), nullable=False)
     first_name = Column(String(128))
     last_name = Column(String(128))
+
+    Places = relationship('Place', backref=backref(
+        "user", cascade="all, delete"))
