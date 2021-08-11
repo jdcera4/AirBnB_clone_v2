@@ -9,11 +9,12 @@ import models
 
 metadata = Base.metadata
 place_amenity = Table("place_amenity", metadata,
-                      Column('place_id', String(60), ForeignKey(
-                          'places.id'), primary_key=True),
-                      Column('amenity_id', String(60), ForeignKey(
-                          'amenities.id'), primary_key=True))
-
+                          Column('place_id', String(60),
+                                 ForeignKey('places.id'),
+                                 nullable=False),
+                          Column('amenity_id', String(60),
+                                 ForeignKey('amenities.id'),
+                                 nullable=False))
 
 class Place(BaseModel, Base):
     """ A place to stay """
@@ -34,8 +35,7 @@ class Place(BaseModel, Base):
     if getenv('HBNB_TYPE_STORAGE') == 'db':
         reviews = relationship("Review", backref=backref(
             "place", cascade="all, delete"))
-        amenities = relationship(
-            "Amenity", secondary=place_amenity, viewonly=False, back_populates="place_amenities")
+        amenities = relationship("Amenity", secondary=place_amenity, viewonly=False)
     else:
         @property
         def reviews(self):
@@ -48,21 +48,20 @@ class Place(BaseModel, Base):
                     new_list.append(review)
             return new_list
 
-        # @property
-        # def amenities(self):
-        #     """ the getter of amenities """
-        #     amenity_obj = []
-        #     for amenity_id in self.amenity_ids:
-        #         key = 'Amenety.' + amenity_id
-        #         if key in models.storage.__objects[key]:
-        #             amenity_obj.append(models.storage.__objects[key])
-        #     return amenity_obj
+        @property
+        def amenities(self):
+            """ the getter of amenities """
+            amenity_obj = []
+            for amenity_id in self.amenity_ids:
+                key = 'Amenety.' + amenity_id
+                if key in FileStorage.__objects[key]:
+                    amenity_obj.append(FileStorage.__objects[key])
+            return amenity_obj
 
-        # @amenities.setter
-        # def amenities(self, obj):
-        #     """ Setter of amenities """
-        #     #from models.amenity import Amenity
-        #     #objs = models.storage.all(Amenity)
-        #     from models.amenity import Amenity
-        #     if isinstance(obj, Amenity):
-        #         self.amenity_ids.append(obj.id)
+        @amenities.setter
+        def amenities(self, obj):
+            """ Setter of amenities """
+            #from models.amenity import Amenity
+            #objs = models.storage.all(Amenity)
+            if isinstance(obj, Amenity):
+                self.amenity_ids.append(obj.id)
