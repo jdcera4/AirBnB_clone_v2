@@ -9,12 +9,13 @@ import models
 
 metadata = Base.metadata
 place_amenity = Table("place_amenity", metadata,
-                          Column('place_id', String(60),
-                                 ForeignKey('places.id'),
-                                 nullable=False),
-                          Column('amenity_id', String(60),
-                                 ForeignKey('amenities.id'),
-                                 nullable=False))
+                      Column('place_id', String(60),
+                             ForeignKey('places.id'),
+                             nullable=False),
+                      Column('amenity_id', String(60),
+                             ForeignKey('amenities.id'),
+                             nullable=False))
+
 
 class Place(BaseModel, Base):
     """ A place to stay """
@@ -35,7 +36,8 @@ class Place(BaseModel, Base):
     if getenv('HBNB_TYPE_STORAGE') == 'db':
         reviews = relationship("Review", backref=backref(
             "place", cascade="all, delete"))
-        amenities = relationship("Amenity", secondary=place_amenity, viewonly=False)
+        amenities = relationship("Amenity", secondary=place_amenity,
+                                 viewonly=False)
     else:
         @property
         def reviews(self):
@@ -61,7 +63,5 @@ class Place(BaseModel, Base):
         @amenities.setter
         def amenities(self, obj):
             """ Setter of amenities """
-            #from models.amenity import Amenity
-            #objs = models.storage.all(Amenity)
             if isinstance(obj, Amenity):
                 self.amenity_ids.append(obj.id)

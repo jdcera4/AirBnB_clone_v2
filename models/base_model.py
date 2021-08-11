@@ -38,7 +38,7 @@ class BaseModel:
                         value, '%Y-%m-%dT%H:%M:%S.%f'))
                 else:
                     setattr(self, key, value)
-            if not "id" in self.__dict__:
+            if "id" not in self.__dict__:
                 self.id = str(uuid.uuid4())
                 self.created_at = datetime.now()
                 self.updated_at = datetime.now()
