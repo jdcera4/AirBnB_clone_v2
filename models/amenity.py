@@ -6,7 +6,7 @@ from sqlalchemy.sql.sqltypes import String
 from sqlalchemy.orm import relationship, backref
 
 
-class Amenity(BaseModel, Base):
+class Amenity(BaseModel):
     """the class of amenity"""
     name = ""
     # from models.place import place_amenity
