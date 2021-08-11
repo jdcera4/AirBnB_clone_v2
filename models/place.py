@@ -14,6 +14,7 @@ place_amenity = Table("place_amenity", metadata,
                       Column('amenity_id', String(60), ForeignKey(
                           'amenities.id'), primary_key=True))
 
+
 class Place(BaseModel, Base):
     """ A place to stay """
     __tablename__ = 'places'
@@ -47,21 +48,21 @@ class Place(BaseModel, Base):
                     new_list.append(review)
             return new_list
 
-        @property
-        def amenities(self):
-            """ the getter of amenities """
-            amenity_obj = []
-            for amenity_id in self.amenity_ids:
-                key = 'Amenety.' + amenity_id
-                if key in models.storage.__objects[key]:
-                    amenity_obj.append(models.storage.__objects[key])
-            return amenity_obj
+        # @property
+        # def amenities(self):
+        #     """ the getter of amenities """
+        #     amenity_obj = []
+        #     for amenity_id in self.amenity_ids:
+        #         key = 'Amenety.' + amenity_id
+        #         if key in models.storage.__objects[key]:
+        #             amenity_obj.append(models.storage.__objects[key])
+        #     return amenity_obj
 
-        @amenities.setter
-        def amenities(self, obj):
-            """ Setter of amenities """
-            #from models.amenity import Amenity
-            #objs = models.storage.all(Amenity)
-            from models.amenity import Amenity
-            if isinstance(obj, Amenity):
-                self.amenity_ids.append(obj.id)
+        # @amenities.setter
+        # def amenities(self, obj):
+        #     """ Setter of amenities """
+        #     #from models.amenity import Amenity
+        #     #objs = models.storage.all(Amenity)
+        #     from models.amenity import Amenity
+        #     if isinstance(obj, Amenity):
+        #         self.amenity_ids.append(obj.id)
