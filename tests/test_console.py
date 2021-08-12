@@ -8,6 +8,7 @@ import unittest
 from io import StringIO
 from console import HBNBCommand
 from unittest.mock import create_autospec
+import console
 
 
 class test_console(unittest.TestCase):
@@ -48,6 +49,20 @@ class test_console(unittest.TestCase):
         console = self.create()
         console.onecmd("all")
         self.assertTrue(isinstance(self.capt_out.getvalue(), str))
+
+    def test_console_module_docstring(self):
+        """Test for the console.py module docstring"""
+        self.assertIsNot(console.__doc__, None,
+                         "console.py needs a docstring")
+        self.assertTrue(len(console.__doc__) >= 1,
+                        "console.py needs a docstring")
+
+    def test_HBNBCommand_class_docstring(self):
+        """Test for the HBNBCommand class docstring"""
+        self.assertIsNot(HBNBCommand.__doc__, None,
+                         "HBNBCommand class needs a docstring")
+        self.assertTrue(len(HBNBCommand.__doc__) >= 1,
+                        "HBNBCommand class needs a docstring")
 
     @unittest.skipIf(
         os.getenv('HBNB_TYPE_STORAGE') == 'db',
