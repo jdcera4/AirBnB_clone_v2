@@ -29,11 +29,6 @@ class test_console(unittest.TestCase):
         console = self.create()
         self.assertTrue(console.onecmd("quit"))
 
-    def test_EOF(self):
-        """ Test EOF exist """
-        console = self.create()
-        self.assertTrue(console.onecmd("EOF"))
-
     def test_create(self):
         """ test quit exists """
         console = self.create()
