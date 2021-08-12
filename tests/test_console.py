@@ -26,7 +26,8 @@ class test_console(unittest.TestCase):
     def test_create(self):
         """ test quit exists """
         console = self.create()
-        self.assertIsNone(console.onecmd("quit"))
+        console.onecmd("create State name=\"California\"")
+        self.assertIsNone(console.onecmd("all State"))
 
     def create(self):
         """ create instance of HBNBCommand class """
