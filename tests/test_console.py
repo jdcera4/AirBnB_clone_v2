@@ -26,6 +26,16 @@ class test_console(unittest.TestCase):
         ''''''
         sys.stdout = self.backup
 
+    def test_EOF(self):
+        """ Test EOF exist """
+        console = self.create()
+        self.assertTrue(console.onecmd("EOF"))
+
+    def test_quit(self):
+        """ test quit exists """
+        console = self.create()
+        self.assertTrue(console.onecmd("quit"))
+
     def create(self):
         """ create instance of HBNBCommand class """
         return HBNBCommand()
