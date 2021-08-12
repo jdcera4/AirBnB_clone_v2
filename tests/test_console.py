@@ -23,6 +23,11 @@ class test_console(unittest.TestCase):
         ''''''
         sys.stdout = self.backup
 
+    def test_quit(self):
+        """ test quit exists """
+        console = self.create()
+        self.assertTrue(console.onecmd("quit"))
+
     def test_create(self):
         """ test quit exists """
         console = self.create()
