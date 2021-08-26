@@ -6,18 +6,18 @@ from datetime import datetime
 
 
 def do_pack():
-    """ Pack up our web_static """
+    """ function do pack """
 
     try:
         now = datetime.now()
 
-        tarArchiveName = "web_static_" + now.strftime("%Y%m%d%H%M%S") + ".tgz"
-        tarArchivePath = "versions/" + tarArchiveName
+        file_name = "web_static_" + now.strftime("%Y%m%d%H%M%S") + ".tgz"
+        name_path = "versions/" + file_name
 
         local("mkdir -p versions")
 
-        local("tar -czvf " + tarArchivePath + " web_static")
+        local("tar -czvf " + name_path + " web_static")
 
-        return tarArchivePath
+        return name_path
     except:
         return None
