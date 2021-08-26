@@ -1,21 +1,21 @@
 #!/usr/bin/python3
 """ Fabric File """
-
-from fabric.api import local, env, put, run
+from fabric.api import *
 from datetime import datetime
 import os.path
-env.host = ['34.74.126.117', '34.235.137.233']
+env.hosts = ['34.74.126.117', '34.235.137.233']
 
 
 def do_deploy(archive_path):
     """
+    function deploy
     """
     if not os.path.exists(archive_path):
         return False
     try:
         file_name = archive_path[9:]
         path_ = file_name[:-4]
-        put(path_, '/tmp/' + file_name)
+        put(archive_path, '/tmp/')
         run('mkdir -p /data/web_static/releases/' + file_name)
         run('tar -xzvf /tmp/' + archiveName +
             " -C /data/web_static/releases/" +
