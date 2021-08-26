@@ -22,7 +22,8 @@ def do_deploy(archive_path):
             " -C /data/web_static/releases/" +
             Extension)
         run("rm /tmp/" + file_name)
-        run("mv /data/web_static/releases/" + file_name[0:-4] + "/web_static/* "
+        run("mv /data/web_static/releases/web_static_20210826102615/\
+            web_static/* "
             + "/data/web_static/releases/web_static_20210826102615/")
         run("rm -rf /data/web_static/current")
         run("sudo ln -sf /data/web_static/releases/" +
