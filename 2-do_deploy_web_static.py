@@ -7,23 +7,25 @@ env.hosts = ['34.74.126.117', '34.235.137.233']
 
 
 def do_deploy(archive_path):
-    """
-    function deploy
-    """
+    """ Deploy an archive """
+
     if not os.path.exists(archive_path):
         return False
+
     try:
-        file_name = archive_path[9:]
-        path_ = file_name[:-4]
-        put(archive_path, '/tmp/')
-        run('mkdir -p /data/web_static/releases/' + file_name)
+        archiveName = archive_path[9:]
+        archiveNameMinusExtension = archiveName[:-4]
+
+        put(archive_path, '/tmp/' + archiveName)
+        run("mkdir -p /data/web_static/releases/" + archiveNameMinusExtension)
         run('tar -xzvf /tmp/' + archiveName +
             " -C /data/web_static/releases/" +
             archiveNameMinusExtension + " --strip-components=1")
-        run('rm -rf /tmp/' + file_name)
-        run ('rm -rf /data/web_static/current')
-        run('sudo ln -sf /data/web_static/releases/' + path_ +
-           ' /data/web_static/current')
+        run("rm -f /tmp/" + archiveName)
+        run("rm -f /data/web_static/current")
+        run("sudo ln -sf /data/web_static/releases/" +
+            archiveNameMinusExtension + " /data/web_static/current")
+
         return True
     except:
         return False
