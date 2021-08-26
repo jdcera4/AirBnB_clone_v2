@@ -6,7 +6,6 @@ sudo apt-get -y install nginx
 sudo ufw allow 'Nginx HTTP'
 sudo mkdir -p /data/web_static/shared/
 sudo mkdir -p /data/web_static/releases/test/
-sudo chown -R "$USER":"$USER" /data/
 rm -rf /data/web_static/releases/test/index.html
 echo "
 <html>
@@ -19,6 +18,7 @@ echo "
 " >> /data/web_static/releases/test/index.html
 rm -rf /data/web_static/current
 sudo ln -s /data/web_static/releases/test /data/web_static/current
+sudo chown -R ubuntu:ubuntu /data/
 rm -rf /etc/nginx/sites-available/default
 echo "
 server {
