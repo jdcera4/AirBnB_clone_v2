@@ -29,11 +29,6 @@ def do_deploy(archive_path):
         delete_file = run("rm /tmp/" + file_name)
         if delete_file.failed:
             return False
-        mv = run("mv /data/web_static/releases/web_static_20210826102615/\
-            web_static/* "
-                 + "/data/web_static/releases/web_static_20210826102615/")
-        if mv.failed:
-            return False
         dele_path = run("rm -rf /data/web_static/current")
         if dele_path.failed:
             return False
