@@ -18,11 +18,13 @@ def do_deploy(archive_path):
 
         put(archive_path, '/tmp/' + file_name)
         run("mkdir -p /data/web_static/releases/" + Extension)
-        run('tar -xzvf /tmp/' + file_name +
+        run('tar -xzf /tmp/' + file_name +
             " -C /data/web_static/releases/" +
-            Extension + " --strip-components=1")
-        run("rm -f /tmp/" + file_name)
-        run("rm -f /data/web_static/current")
+            Extension)
+        run("rm /tmp/" + file_name)
+        run("mv /data/web_static/releases/" + file_name[0:-4] + "/web_static/* "
+            + "/data/web_static/releases/web_static_20210826102615/")
+        run("rm -rf /data/web_static/current")
         run("sudo ln -sf /data/web_static/releases/" +
             Extension + " /data/web_static/current")
 
