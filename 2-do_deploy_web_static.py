@@ -12,26 +12,35 @@ def do_deploy(archive_path):
     if not os.path.exists(archive_path):
         return False
 
-    try:
         file_name = archive_path[9:]
         Extension = file_name[:-4]
 
-        put(archive_path, '/tmp/' + file_name)
-        run("mkdir -p /data/web_static/releases/" + Extension)
-        run('tar -xzf /tmp/' + file_name +
+        enable = put(archive_path, '/tmp/' + file_name)
+        if enable.failed:
+            return False
+        create_file = run("mkdir -p /data/web_static/releases/" + Extension)
+        if create_file.failed:
+            return False
+        descom = run('tar -xzf /tmp/' + file_name +
             " -C /data/web_static/releases/" +
             Extension)
-        run("rm /tmp/" + file_name)
-        run("mv /data/web_static/releases/web_static_20210826102615/\
+        if descom.failed:
+            return False
+        delete_file = run("rm /tmp/" + file_name)
+        if delete_file.failed:
+            return False
+        mv = run("mv /data/web_static/releases/web_static_20210826102615/\
             web_static/* "
             + "/data/web_static/releases/web_static_20210826102615/")
-        run("rm -rf /data/web_static/current")
-        run("sudo ln -sf /data/web_static/releases/" +
+        if mv.failed:
+            return False
+        dele_path = run("rm -rf /data/web_static/current")
+        if dele_path.failed:
+            return False
+        sybolic_link = run("sudo ln -sf /data/web_static/releases/" +
             Extension + " /data/web_static/current")
-
-        return True
-    except:
-        return False
+        if sybolic_link.failed:
+            return False
 
 
 def do_pack():
