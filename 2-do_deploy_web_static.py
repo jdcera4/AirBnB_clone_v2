@@ -22,8 +22,8 @@ def do_deploy(archive_path):
         if create_file.failed:
             return False
         descom = run('tar -xzf /tmp/' + file_name +
-            " -C /data/web_static/releases/" +
-            Extension)
+                     " -C /data/web_static/releases/" +
+                     Extension)
         if descom.failed:
             return False
         delete_file = run("rm /tmp/" + file_name)
@@ -31,14 +31,14 @@ def do_deploy(archive_path):
             return False
         mv = run("mv /data/web_static/releases/web_static_20210826102615/\
             web_static/* "
-            + "/data/web_static/releases/web_static_20210826102615/")
+                 + "/data/web_static/releases/web_static_20210826102615/")
         if mv.failed:
             return False
         dele_path = run("rm -rf /data/web_static/current")
         if dele_path.failed:
             return False
         sybolic_link = run("sudo ln -sf /data/web_static/releases/" +
-            Extension + " /data/web_static/current")
+                           Extension + " /data/web_static/current")
         if sybolic_link.failed:
             return False
 
