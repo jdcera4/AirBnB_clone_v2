@@ -13,22 +13,23 @@ def do_deploy(archive_path):
         return False
 
     try:
-        archiveName = archive_path[9:]
-        archiveNameMinusExtension = archiveName[:-4]
+        file_name = archive_path[9:]
+        Extension = file_name[:-4]
 
-        put(archive_path, '/tmp/' + archiveName)
-        run("mkdir -p /data/web_static/releases/" + archiveNameMinusExtension)
-        run('tar -xzvf /tmp/' + archiveName +
+        put(archive_path, '/tmp/' + file_name)
+        run("mkdir -p /data/web_static/releases/" + Extension)
+        run('tar -xzvf /tmp/' + file_name +
             " -C /data/web_static/releases/" +
-            archiveNameMinusExtension + " --strip-components=1")
-        run("rm -f /tmp/" + archiveName)
+            Extension + " --strip-components=1")
+        run("rm -f /tmp/" + file_name)
         run("rm -f /data/web_static/current")
         run("sudo ln -sf /data/web_static/releases/" +
-            archiveNameMinusExtension + " /data/web_static/current")
+            Extension + " /data/web_static/current")
 
         return True
     except:
         return False
+
 
 def do_pack():
     """ function do pack """
