@@ -31,7 +31,6 @@ def do_deploy(archive_path):
         return False
 
 
-
 def do_pack():
     """ function do pack """
 
